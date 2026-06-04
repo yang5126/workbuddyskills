@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "video-downloader": {
+      "command": "C:\\Users\\yg\\.workbuddy\\binaries\\python\\versions\\3.13.12\\python.exe",
+      "args": [
+        "C:\\aiWorkspace\\video-downloader\\video-downloader-web\\mcp_server.py"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "disabled": false
+    },
+    "deploy-mcp": {
+      "command": "C:\\Users\\yg\\.workbuddy\\binaries\\node\\versions\\22.22.2\\node.exe",
+      "args": [
+        "C:\\Users\\yg\\.workbuddy\\mcp-servers\\deploy-mcp\\server.js"
+      ],
+      "disabled": false
+    },
+    "xunlei-download": {
+      "transport": "sse",
+      "url": "https://api-xmodels.xunlei.com/models/sse/i7NRPxFpDdb40mNCnB7dN3Kj82a6Cmcl",
+      "disabled": false
+    }
+  }
+}
