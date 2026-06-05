@@ -45,13 +45,20 @@ JAR 本地路径前缀：`C:/Users/yg/IdeaProjects/scm_{产业}_server/target/`
 
 若用户未明确指定类型，询问是测试环境还是正式环境。
 
-### 步骤 2: Maven 打包（推荐）
+### 步骤 2: 智能打包
 
-若 JAR 不存在或代码有更新，先执行 Maven 打包：
+**自动判断**：比对 `src/` 目录下 `.java/.xml/.yml/.properties/.ftl` 的最新修改时间与 `target/gdt_*.jar` 的修改时间：
+- **JAR 更新** → 跳过编译
+- **源码更新** → 执行编译
+- **JAR 不存在** → 执行编译
 
+编译时优先使用 Maven：
 ```bash
-cd "C:/Users/yg/IdeaProjects/scm_{mt/ly/lg}_server" && mvn clean package -DskipTests
+mvn package -DskipTests
 ```
+若 Maven 因沙箱限制失败，兜底使用 `jar cf` 从 `target/classes/` 打包。
+
+使用 `deploy_full({ buildFirst: true })` 或 `deploy_build({ env: "mt" })` 时自动执行此判断。如需强制重编译，传 `force: true`。
 
 项目路径映射：
 
@@ -112,6 +119,37 @@ Body: { command: "sh reStart-{mt/ly/lg}.sh", platform: "linux", workingDirectory
 - 上传耗时
 - 服务器端文件时间是否确认最新
 - 重启命令执行状态
+
+## 前端 Web 部署
+
+### 流程
+
+1. **新鲜度检查**：比对 `src/` 源码最新修改时间与 `dist/` 目录时间
+2. **构建**（如需）：执行 `scripts/idea/build-prod.cmd`
+3. **打包 zip**：压缩 `dist/` 目录（排除 `config.js`）
+4. **上传**：通过 `/remote/files/uploadFile` 上传 zip
+5. **解压**：通过 `/remote/files/unzip` 解压到目标路径
+6. **验证**：检查文件列表时间
+
+### MCP 工具
+
+| 工具 | 说明 |
+|------|------|
+| `deploy_web_build` | 智能打包（自动判断是否需要编译） |
+| `deploy_web_upload` | 打包 zip → 上传 → 解压 → 验证 |
+| `deploy_web_full` | 一键部署（构建 + 上传） |
+
+### 前端项目路径
+
+| 产业 | 项目目录 | 构建脚本 |
+|------|---------|---------|
+| 煤炭 | `scm_mt_web/frontend-web-pc` | `scripts/idea/build-prod.cmd` |
+| 铝业 | `scm_ly_web/frontend-web-pc` | `scripts/idea/build-prod.cmd` |
+| 陆港 | `scm_lg_web/frontend-web-pc` | `scripts/idea/build-prod.cmd` |
+
+### 服务端目标路径
+
+统一为 `/data/gdt_home/gdt_{产业}/web/dist/`
 
 ## API 认证
 

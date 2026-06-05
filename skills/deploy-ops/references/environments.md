@@ -51,3 +51,13 @@
 ```
 
 重启脚本均在工作目录下执行 `sh reStart-{产业}.sh`。
+
+## 前端 Web 部署路径
+
+| 产业 | 正式/测试 | 目标路径 |
+|------|----------|---------|
+| 煤炭 | mt/mt_test | `/data/gdt_home/gdt_mt/web/dist/` |
+| 铝业 | ly/ly_test | `/data/gdt_home/gdt_ly/web/dist/` |
+| 陆港 | lg/lg_test | `/data/gdt_home/gdt_lg/web/dist/` |
+
+前端构建脚本统一为各项目的 `scripts/idea/build-prod.cmd`。
