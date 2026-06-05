@@ -1,0 +1,12 @@
+{
+  "name": "huya-live-mcp",
+  "version": "1.0.0",
+  "description": "虎牙直播流地址抓取 MCP Server - 提供直播间搜索、流地址获取、M3U 生成功能",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
